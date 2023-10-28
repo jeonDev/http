@@ -12,14 +12,14 @@ public class WebServerImpl implements WebServer {
     private final int maxThreadCount;
 
     {
-        connector = new ConnectorImpl();
         acceptCount = DEFAULT_ACCEPT_COUNT;
         maxThreadCount = DEFAULT_MAX_THREAD_COUNT;
+        connector = new ConnectorImpl(acceptCount, maxThreadCount);
     }
 
     @Override
     public void start() {
         logger.debug("Web Server Start : " + connector);
-        connector.start(acceptCount, maxThreadCount);
+        connector.start();
     }
 }
