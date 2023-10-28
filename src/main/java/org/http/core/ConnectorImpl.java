@@ -29,26 +29,6 @@ public class ConnectorImpl implements Connector {
         this(DEFAULT_PORT, acceptCount, Executors.newFixedThreadPool(maxThreadCount));
     }
 
-    private ServerSocket createServerSocket(int port, int acceptCount) {
-        try {
-            int checkedPort = checkPort(port);
-            int checkedAcceptCount = checkAcceptCount(acceptCount);
-            return new ServerSocket(checkedPort, checkedAcceptCount);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private int checkPort(int port) {
-        int MIN_PORT = 1;
-        int MAX_PORT = 65535;
-        return (port > MIN_PORT && port < MAX_PORT) ? port : DEFAULT_PORT;
-    }
-
-    private int checkAcceptCount(int acceptCount) {
-        return Math.max(acceptCount, DEFAULT_ACCEPT_COUNT);
-    }
-
     @Override
     public void start() {
         Thread thread = new Thread(this);
@@ -70,6 +50,38 @@ public class ConnectorImpl implements Connector {
     }
 
     private void connect() {
+        try {
+            process(serverSocket.accept());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void process(Socket connection) {
+        if(connection == null) {
+            return;
+        }
+        HttpProcessor processor = new HttpProcessorImpl(connection);
+        executorService.execute(processor);
+    }
+
+    private ServerSocket createServerSocket(int port, int acceptCount) {
+        try {
+            int checkedPort = checkPort(port);
+            int checkedAcceptCount = checkAcceptCount(acceptCount);
+            return new ServerSocket(checkedPort, checkedAcceptCount);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private int checkPort(int port) {
+        int MIN_PORT = 1;
+        int MAX_PORT = 65535;
+        return (port > MIN_PORT && port < MAX_PORT) ? port : DEFAULT_PORT;
+    }
+
+    private int checkAcceptCount(int acceptCount) {
+        return Math.max(acceptCount, DEFAULT_ACCEPT_COUNT);
     }
 }

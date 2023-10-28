@@ -3,13 +3,12 @@ package org.http.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 
 /**
  * Http Request Processor
  * */
-public interface HttpProcessor {
+public interface HttpProcessor extends Runnable {
 
-    InputStream request(Socket socket) throws IOException;
+    InputStream request() throws IOException;
     OutputStream response() throws IOException;
 }
