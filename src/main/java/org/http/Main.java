@@ -1,7 +1,9 @@
 package org.http;
 
+import org.http.core.HttpServerRunner;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        HttpServerRunner.run();
     }
 }
