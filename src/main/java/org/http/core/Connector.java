@@ -9,7 +9,4 @@ public interface Connector extends Runnable{
     /** Connector Start */
     void start();
 
-    /** Request Processor Send */
-    void accept(Socket socket);
-
 }

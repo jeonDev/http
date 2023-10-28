@@ -44,11 +44,6 @@ public class ConnectorImpl implements Connector {
         }
     }
 
-    @Override
-    public void accept(Socket socket) {
-
-    }
-
     private void connect() {
         try {
             process(serverSocket.accept());
