@@ -9,4 +9,6 @@ public interface Connector extends Runnable{
     /** Connector Start */
     void start();
 
+    /** Connector Stop */
+    void stop();
 }

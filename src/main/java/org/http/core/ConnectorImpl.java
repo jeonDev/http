@@ -22,7 +22,6 @@ public class ConnectorImpl implements Connector {
     public ConnectorImpl(int port, int acceptCount, ExecutorService executorService) {
         this.executorService = executorService;
         this.serverSocket = createServerSocket(port, acceptCount);
-        this.stopped = false;
     }
 
     public ConnectorImpl(int acceptCount, int maxThreadCount) {
@@ -34,7 +33,17 @@ public class ConnectorImpl implements Connector {
         Thread thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
-//        logger.debug("start(" + acceptCount + ", " + maxThreadCount + ")");
+        this.stopped = false;
+    }
+
+    @Override
+    public void stop() {
+        this.stopped = true;
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     @Override

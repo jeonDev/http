@@ -3,6 +3,8 @@ package org.http.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class WebServerImpl implements WebServer {
     private static final Logger logger = LoggerFactory.getLogger(WebServerImpl.class);
     private final Connector connector;
@@ -21,5 +23,14 @@ public class WebServerImpl implements WebServer {
     public void start() {
         logger.debug("Web Server Start : " + connector);
         connector.start();
+
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            logger.info("Web Server Stop.");
+            connector.stop();
+        }
     }
 }
