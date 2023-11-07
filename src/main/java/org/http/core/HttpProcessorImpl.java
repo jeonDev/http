@@ -24,13 +24,12 @@ public class HttpProcessorImpl implements HttpProcessor {
 
     @Override
     public void run() {
-        logger.debug("run");
         process(connection);
     }
 
     @Override
     public void process(Socket socket) {
-        logger.debug("process");
+        logger.debug("request Thread Name : {} ", Thread.currentThread().getName());
         try {
             InputStream inputStream = connection.getInputStream();
             OutputStream outputStream = connection.getOutputStream();
