@@ -55,6 +55,7 @@ public class ConnectorImpl implements Connector {
 
     private void connect() {
         try {
+            // accept() 메소드는 클라이언트가 연결 요청하기 전까지 블로킹 -> Thread가 대기 상태
             process(serverSocket.accept());
         } catch (IOException e) {
             throw new RuntimeException(e);
