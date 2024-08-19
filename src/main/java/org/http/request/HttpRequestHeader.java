@@ -68,6 +68,26 @@ public class HttpRequestHeader {
     }
 
 
+    public String getStartLine() {
+        return startLine;
+    }
+
+    public HttpMethod getHttpMethod() {
+        return httpMethod;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public String getHttpVersion() {
+        return httpVersion;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
     @Override
     public String toString() {
         return "HttpRequestHeader{" +

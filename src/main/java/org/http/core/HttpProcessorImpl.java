@@ -42,6 +42,16 @@ public class HttpProcessorImpl implements HttpProcessor {
             HttpRequestHeader httpRequestHeader = makeHttpRequestHeader(bufferedReader);
             logger.debug(httpRequestHeader.toString());
             // 1-2. Http Body Setting
+            String contentLengthHeader = httpRequestHeader.getHeaders().get("Content-Length");
+            int contentLength = contentLengthHeader != null ? Integer.parseInt(contentLengthHeader) : 0;
+
+            if (contentLength > 0) {
+                byte[] body = new byte[contentLength];
+
+                inputStream.read(body, 0, contentLength);
+                String bodyString = new String(body, UTF_8);
+                logger.debug("body : {}", bodyString);
+            }
 
             // 2. Process
 
