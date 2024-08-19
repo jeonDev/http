@@ -36,14 +36,11 @@ public class HttpProcessorImpl implements HttpProcessor {
 
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String s = bufferedReader.readLine();
 
             // 1. Request
             // 1-1. Http Header Setting
             HttpRequestHeader httpRequestHeader = makeHttpRequestHeader(bufferedReader);
-            String requestUrl = httpRequestHeader.getRequestUrl();
             logger.debug(httpRequestHeader.toString());
-            logger.debug(requestUrl);
             // 1-2. Http Body Setting
 
             // 2. Process

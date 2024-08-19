@@ -13,11 +13,26 @@ public class HttpRequestHeader {
     private static final int URL_INDEX = 1;
 
     private final String startLine;
+    private final HttpMethod httpMethod;
+    private final String uri;
+    private final String httpVersion;
     private final Map<String, String> headers;
 
     public HttpRequestHeader(String startLine, Map<String, String> headers) {
-        this.startLine = startLine;
-        this.headers = headers;
+        if (startLine != null) {
+            String[] startLines = startLine.split(" ");
+            this.startLine = startLine;
+            this.httpMethod = HttpMethod.valueOf(startLines[0]);
+            this.uri = startLines[1];
+            this.httpVersion = startLines[2];
+            this.headers = headers;
+        } else {
+            this.startLine = startLine;
+            this.httpMethod = HttpMethod.OPTIONS;
+            this.uri = "";
+            this.httpVersion = "";
+            this.headers = headers;
+        }
     }
 
     public String getRequestUrlWithoutQuery() {
@@ -50,5 +65,17 @@ public class HttpRequestHeader {
             return path + HTML_EXTENSION + QUERY_START_CHARACTER + queryString;
         }
         return requestUrl + HTML_EXTENSION;
+    }
+
+
+    @Override
+    public String toString() {
+        return "HttpRequestHeader{" +
+                "startLine='" + startLine + '\'' +
+                ", httpMethod=" + httpMethod +
+                ", uri='" + uri + '\'' +
+                ", httpVersion='" + httpVersion + '\'' +
+                ", headers=" + headers +
+                '}';
     }
 }
